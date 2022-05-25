@@ -12,8 +12,28 @@
 # here put the import lib
 
 # %%
-form mxnet import sym
+import torch 
+x = torch.arange(4,dtype=torch.float32)
+x.requires_grad_(True)
+x.grad
+y = 2 * torch.dot(x,x)
+y.backward()
+x.grad == 4 * x
 
-a = sym.var()
-b = sym.var()
-c = 2 * a + b
+# x.grad.zero_()
+y = x.sum()
+y.backward()
+x.grad
+
+
+x.grad.zero_()
+y = x * x
+y.sum().backward()
+x.grad
+
+x.grad.zero_()
+y = x * x
+u = y.detach()
+z = u * x
+z.sum().backward()
+x.grad
